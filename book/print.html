@@ -141,6 +141,9 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/RedBlack23/mathematics_in_lean_zhCN" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
 
                     </div>
                 </div>
@@ -171,7 +174,7 @@
 <p>简单来说, Lean是一种构建复杂表达式的工具, 建立在被称作依值类型论(dependent type theory)的形式语言上.</p>
 <p>每一个表达式拥有一个类型, 你可以使用<code>#check</code>命令来检查它们. 一些数学对象表达式属于ℕ或ℕ → ℕ类型. 例如:</p>
 <pre><code class="language-lean">-- 译者注：此处需要导入
--- import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.Basic
 -- 注意导入包的语句都需要放在文件开头
 #check 2 + 2
 
@@ -203,12 +206,14 @@ theorem hard : FermatLastTheorem :=
 <p>这本书是对相关教程<a href="https://subfish-zhou.github.io/theorem_proving_in_lean4_zh_CN/">《Lean定理证明》</a><a href="https://lean-lang.org/theorem_proving_in_lean4/">(theorm proving in lean)</a>的补充, 那份教程更全面地介绍了Lean的基本逻辑框架和核心语法. 《Lean定理证明》适用于那些喜欢在使用新机器之前从头到尾阅读用户手册的人. 如果你是那种喜欢点击开始按钮, 然后弄清楚如何激活各种特性的人, 那么从这里开始, 并在必要时参考《Lean定理证明》会更有意义. </p>
 <p>《Lean中的数学》与《Lean定理证明》的另一个区别是, 此处更加强调证明策略(tactic)的使用. 假设我们正在尝试构建复杂的表达式, Lean提供了两种方法: 我们可以写下表达式本身(即适当的文本描述), 或者我们可以向Lean提供关于如何构建它们的说明. 例如, 下面的表达式证明了如果n是偶数, 那么m * n也是偶数:</p>
 <pre><code class="language-lean">-- 译者注：
--- 这里even需要导入
--- import Mathlib.algebra.parity
--- 或者定义
--- def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
+-- 这里Even需要导入
+import Mathlib.Algebra.Parity
+
+-- 或者导入自然数基础并附加定义
+-- import Mathlib.Data.Nat.Basic
+-- def Even (n : Nat) : Prop := ∃ (k : Nat) , n = k + k
 -- 二者择一，不可同用
--- 欲知导入何种library，可以在mathlib上搜索
+-- 欲知导入何种library，可以在Mathlib上搜索
 
 example : ∀ m n : Nat, Even n → Even (m * n) := 
   fun m n ⟨k, (hk : n = k + k)⟩ ↦
@@ -220,10 +225,10 @@ example : ∀ m n : Nat, Even n → Even (m * n) :=
 fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 </code></pre>
 <p>策略式的证明是下面这样:</p>
-<pre><code class="language-lean">import Mathlib.tactic --导入策略
+<pre><code class="language-lean">import Mathlib.Tactic --导入策略
 example : ∀ m n : nat, even n → even (m * n) := by
   -- 设m和n是自然数, 然后假设n=2*k
-  rintros m n ⟨k, hk⟩
+  rintro m n ⟨k, hk⟩
   -- 需要证明m*n 是自然数的两倍, 现在说明它是两倍的m*k
   use m * k
   -- 代入n
@@ -246,12 +251,12 @@ example : ∀ m n : nat, even n → even (m * n) := by
 <p>所以这是你的任务, 如果你选择接受它: 潜心学习, 多加练习,带着问题来Zulip, 并祝你玩得开心. 但要预先警告: 交互式定理证明将给你一些挑战，从而你将以全新的方式思考数学和数学推理. 你的生活可能从此不同. </p>
 <p><em>Acknowledgments</em>. We are grateful to Gabriel Ebner for setting up the infrastructure for running this tutorial in VS Code. We are also grateful for help from Bryan Gin-ge Chen, Johan Commelin, Julian Külshammer, and Guilherme Silva. Our work has been partially supported by the Hoskinson Center for Formal Mathematics.</p>
 <p>感谢rujia liu老师审校译本,感谢中文类型论社区Infinity Type Café的群友们对译本的大力支持. </p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="基础"><a class="header" href="#基础">基础</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2-基础部分"><a class="header" href="#2-基础部分">2 基础部分</a></h1>
 <p>本章会介绍Lean中数学推理的具体细节: 计算, 使用引理和定理, 以及对一般结构的推理.</p>
 <h2 id="21-计算"><a class="header" href="#21-计算">2.1 计算</a></h2>
-<p>我们一般不把计算看成证明, 但是我们在验证每一个计算步骤的时候, 说明左边等于右边的行为就是一个证明.</p>
-<p>在Lean中, 陈述一个定理等价于确立一个证明该定理的目标. Lean提供<code>rewrite</code>策略, 缩写为<code>rw</code>, 用于在目标中实现等式代换, 把目标中出现在等式左边的项代换成右边的项. 如果<code>a</code>, <code>b</code>, <code>c</code>是实数, <code>mul_assoc a b c</code>是乘法结合律等式<code>a * b * c = a * (b * c)</code>, <code>mul_comm a b</code>是乘法交换律等式<code>a * b = b * a</code>. 在Lean中, 乘法是左结合的, 因此<code>mul_assoc</code>的左边也可以写为<code>（a * b）* c</code>. 然而通常情况下, 注意Lean的符号约定并在Lean也这样做时省略括号是很好的风格. </p>
-<p>试一下<code>rw</code>:</p>
+<p>我们一般不把计算看成证明, 但是我们在验证每一个计算步骤的时候---正如lean要求我们做的那样, 说明左边等于右边的行为就是一个证明.</p>
+<p>在Lean中, 陈述一个定理等价于确立一个证明该定理的目标. Lean提供<code>rewrite</code>策略, 缩写为<code>rw</code>, 用于在目标中实现等式代换, 把目标中出现在等式左边的项代换成右边的项. 如果<code>a</code>, <code>b</code>, <code>c</code>是实数, <code>mul_assoc a b c</code>是乘法结合律等式<code>a * b * c = a * (b * c)</code>, <code>mul_comm a b</code>是乘法交换律等式<code>a * b = b * a</code>. 在Lean中, 乘法是左结合的, 因此<code>mul_assoc</code>的左边也可以写为<code>（a * b）* c</code>. 然而通常情况下, 注意Lean的符号约定并在Lean也这样做时省略括号是很好的范式. </p>
+<p>让我们试一下<code>rw</code>:</p>
 <pre><code class="language-lean">import Mathlib.Data.Real.Basic
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
@@ -906,22 +911,6 @@ variable (x y z : X)
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
