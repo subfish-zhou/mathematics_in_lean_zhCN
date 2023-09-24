@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>概述 - translation of Mathematics in Lean</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1_introduction.html" class="active"><strong aria-hidden="true">1.</strong> 概述</a></li><li class="chapter-item expanded "><a href="chapter_2_basic.html"><strong aria-hidden="true">2.</strong> 基础</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">translation of Mathematics in Lean</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="概述"><a class="header" href="#概述">概述</a></h1>
+<p>简单来说, Lean是一种构建复杂表达式的工具, 建立在被称作依值类型论(dependent type theory)的形式语言上.</p>
+<p>每一个表达式拥有一个类型, 你可以使用<code>#check</code>命令来检查它们. 一些数学对象表达式属于ℕ或ℕ → ℕ类型. 例如:</p>
+<pre><code class="language-lean">#check 2 + 2
+
+def f (x : ℕ) :=
+  x + 3
+
+#check f
+</code></pre>
+<p>一些数学命题表达式属于Prop类型, 例如:</p>
+<pre><code class="language-lean">#check 2 + 2 = 4
+
+def FermatLastTheorem :=
+  ∀ x y z n : ℕ, n &gt; 2 ∧ x * y * z ≠ 0 → x ^ n + y ^ n ≠ z ^ n
+
+#check FermatLastTheorem
+</code></pre>
+<p>还有一些表达式属于类型P, 然后P属于类型Prop. 这类表达式是命题P的证明. 例如</p>
+<pre><code class="language-lean">theorem easy : 2 + 2 = 4 :=
+  rfl
+
+#check easy
+
+theorem hard : FermatLastTheorem :=
+  sorry
+
+#check hard
+</code></pre>
+<p>如果你设法构造了fermat_last_theorem类型的表达式, 并且Lean接受它作为该类型的项, 那么你已经做了一些非常了不起的事情. (<code>sorry</code>是作弊, lean会提醒你在作弊但是会继续执行)</p>
+<p>这本书是对相关教程《Lean定理证明》(Theorem Proving in Lean)的补充, 那份教程更全面地介绍了Lean的基本逻辑框架和核心语法. 《Lean定理证明》适用于那些喜欢在使用新机器之前从头到尾阅读用户手册的人. 如果你是那种喜欢点击开始按钮, 然后弄清楚如何激活各种特性的人, 那么从这里开始, 并在必要时参考《Lean定理证明》会更有意义. </p>
+<p>《Lean中的数学》与《Lean定理证明》的另一个区别是, 此处更加强调证明策略(tactic)的使用. 假设我们正在尝试构建复杂的表达式, Lean提供了两种方法: 我们可以写下表达式本身(即适当的文本描述), 或者我们可以向Lean提供关于如何构建它们的说明. 例如, 下面的表达式证明了如果n是偶数, 那么m * n也是偶数:</p>
+<pre><code class="language-lean">-- 译者注：
+-- 这里even需要导入
+-- import algebra.parity
+-- 或者定义
+def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
+-- 二者择一，不可同用
+-- 欲知导入何种library，可以在mathlib上搜索
+
+example : ∀ m n : Nat, Even n → Even (m * n) := 
+  fun m n ⟨k, (hk : n = k + k)⟩ ↦
+  have hmn : m * n = m * k + m * k := by rw [hk, mul_add]
+  show ∃ l, m * n = l + l from ⟨_, hmn⟩
+</code></pre>
+<p>证明项也可以写到一行之内:</p>
+<pre><code class="language-lean">example : ∀ m n : Nat, Even n → Even (m * n) :=
+fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
+</code></pre>
+<p>策略式的证明是下面这样:</p>
+<pre><code class="language-lean">import tactic --导入策略
+example : ∀ m n : nat, even n → even (m * n) := by
+  -- 设m和n是自然数, 然后假设n=2*k
+  rintros m n ⟨k, hk⟩
+  -- 需要证明m*n 是自然数的两倍, 现在说明它是两倍的m*k
+  use m * k
+  -- 代入n
+  rw [hk]
+  -- 现在就很明显了
+  ring
+</code></pre>
+<p>当你在VScode里面敲下每行证明时, Lean会在单独的窗口里显示证明状态, 告诉你已经获得了何种事实以及接下来你面对的目标. 你可以移动光标位置, Lean会根据你的光标位置输出对应点处的状态. 在本例中,第一行引入了<code>m</code>和<code>n</code>(只要你觉得好看你也可以换别的名字), 然后把假设<code>even n</code>分解为<code>k</code>和<code>n = 2 * k</code>. 第二行声明了我们即将通过<code>m * n = 2 * (m * k)</code>说明<code>m * n</code>是偶数. 下一行使用<code>rewrite</code>策略把目标中的<code>n</code>换为<code>2 * k</code>, 最终使用<code>ring</code>策略解决了结尾目标<code>m * (2 * k) = 2 * (m * k)</code>.</p>
+<p>通过小步骤和增量反馈构建证明的能力是非常强大的, 因此策略证明通常比证明项更容易更快. 两者之间没有明显的区别: 策略证明可以插入证明项中, 正如我们在<code>by rw [hk, mul_left_comm]</code>中所做的那样. 反过来在策略证明中插入短的证明项也是有用的, 本教程的重点在于策略证明.</p>
+<p>上面的策略证明也可以被缩进一行里:</p>
+<pre><code class="language-lean">example : ∀ m n : Nat, Even n → Even (m * n) := by
+  rintro m n ⟨k, hk⟩; use m * k; rw [hk]; ring
+</code></pre>
+<p>这里我们使用了一些小步前进策略. 但Lean也提供大量的自动化策略, 并合理证明更长的计算和更大的推理步骤. 例如, 我们可以使用特定的规则调用Lean的简化器来简化关于奇偶性的陈述, 从而自动证明我们的定理. </p>
+<pre><code class="language-lean">example : ∀ m n : Nat, Even n → Even (m * n) := by
+  intros; simp [*, parity_simps]
+</code></pre>
+<p>《Lean定理证明》与本教程间的另一个巨大区别是, 前者只依赖于核心Lean及其内置策略, 而Lean中的数学则构建在Lean强大且不断增长的库mathlib之上. 因此, 我们可以向你展示如何使用库中的一些数学对象和定理, 以及一些非常有用的策略. 这本书不是用来概述图书馆的; <a href="https://leanprover-community.github.io/">社区</a>网页包含大量的文档. 相反, 我们的目标是向你介绍形式化基础上的思维方式, 以便你可以轻松地浏览图书馆并自己查找内容. </p>
+<p>交互式定理证明是令人沮丧的, 学习曲线是陡峭的. 但是Lean社区非常欢迎新人, 人们可以24小时在Lean Zulip聊天群中回答问题. 我们希望在那里见到你, 并且毫无疑问, 很快你也将能够回答这些问题, 并为mathlib的发展做出贡献. </p>
+<p>所以这是你的任务, 如果你选择接受它: 潜入, 尝试练习, 带着问题来Zulip, 玩得开心. 但要预先警告: 交互式定理证明将挑战你以全新的方式思考数学和数学推理. 你的生活可能从此不同. </p>
+<p><em>Acknowledgments</em>. We are grateful to Gabriel Ebner for setting up the infrastructure for running this tutorial in VS Code. We are also grateful for help from Bryan Gin-ge Chen, Johan Commelin, Julian Külshammer, and Guilherme Silva. Our work has been partially supported by the Hoskinson Center for Formal Mathematics.</p>
+<p>感谢rujia liu老师审校译本, 感谢toaster同学对译本的反馈建议, 感谢中文类型论社区Infinity Type Café的群友们对译本的大力支持. </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next" href="chapter_2_basic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next" href="chapter_2_basic.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
