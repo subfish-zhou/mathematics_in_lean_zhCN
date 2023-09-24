@@ -1,0 +1,6 @@
+[book]
+authors = ["subfish","toaster"]
+language = "zh"
+multilingual = false
+src = "src"
+title = "translation of Mathematics in Lean"
