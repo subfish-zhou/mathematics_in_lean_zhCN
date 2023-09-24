@@ -1,4 +1,4 @@
-# 概述
+# 1 概述
 
 简单来说, Lean是一种构建复杂表达式的工具, 建立在被称作依值类型论(dependent type theory)的形式语言上.
 
@@ -72,7 +72,7 @@ fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 策略式的证明是下面这样:
 
 ```lean
-import tactic --导入策略
+import Mathlib.tactic --导入策略
 example : ∀ m n : nat, even n → even (m * n) := by
   -- 设m和n是自然数, 然后假设n=2*k
   rintros m n ⟨k, hk⟩
