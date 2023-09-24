@@ -5,6 +5,9 @@
 每一个表达式拥有一个类型, 你可以使用`#check`命令来检查它们. 一些数学对象表达式属于ℕ或ℕ → ℕ类型. 例如:
 
 ```lean
+-- 译者注：此处需要导入
+-- import Mathlib.Data.Nat.Basic
+-- 注意导入包的语句都需要放在文件开头
 #check 2 + 2
 
 def f (x : ℕ) :=
@@ -40,16 +43,16 @@ theorem hard : FermatLastTheorem :=
 
 如果你设法构造了fermat_last_theorem类型的表达式, 并且Lean接受它作为该类型的项, 那么你已经做了一些非常了不起的事情. (`sorry`是作弊, lean会提醒你在作弊但是会继续执行)
 
-这本书是对相关教程《Lean定理证明》(Theorem Proving in Lean)的补充, 那份教程更全面地介绍了Lean的基本逻辑框架和核心语法. 《Lean定理证明》适用于那些喜欢在使用新机器之前从头到尾阅读用户手册的人. 如果你是那种喜欢点击开始按钮, 然后弄清楚如何激活各种特性的人, 那么从这里开始, 并在必要时参考《Lean定理证明》会更有意义. 
+这本书是对相关教程[《Lean定理证明》](https://subfish-zhou.github.io/theorem_proving_in_lean4_zh_CN/)[(theorm proving in lean)](https://lean-lang.org/theorem_proving_in_lean4/)的补充, 那份教程更全面地介绍了Lean的基本逻辑框架和核心语法. 《Lean定理证明》适用于那些喜欢在使用新机器之前从头到尾阅读用户手册的人. 如果你是那种喜欢点击开始按钮, 然后弄清楚如何激活各种特性的人, 那么从这里开始, 并在必要时参考《Lean定理证明》会更有意义. 
 
 《Lean中的数学》与《Lean定理证明》的另一个区别是, 此处更加强调证明策略(tactic)的使用. 假设我们正在尝试构建复杂的表达式, Lean提供了两种方法: 我们可以写下表达式本身(即适当的文本描述), 或者我们可以向Lean提供关于如何构建它们的说明. 例如, 下面的表达式证明了如果n是偶数, 那么m * n也是偶数:
 
 ```lean
 -- 译者注：
 -- 这里even需要导入
--- import algebra.parity
+-- import Mathlib.algebra.parity
 -- 或者定义
-def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
+-- def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
 -- 二者择一，不可同用
 -- 欲知导入何种library，可以在mathlib上搜索
 
@@ -99,12 +102,12 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
   intros; simp [*, parity_simps]
 ```
 
-《Lean定理证明》与本教程间的另一个巨大区别是, 前者只依赖于核心Lean及其内置策略, 而Lean中的数学则构建在Lean强大且不断增长的库mathlib之上. 因此, 我们可以向你展示如何使用库中的一些数学对象和定理, 以及一些非常有用的策略. 这本书不是用来概述图书馆的; [社区](https://leanprover-community.github.io/)网页包含大量的文档. 相反, 我们的目标是向你介绍形式化基础上的思维方式, 以便你可以轻松地浏览图书馆并自己查找内容. 
+《Lean定理证明》与本教程间的另一个巨大区别是, 前者只依赖于核心Lean及其内置策略, 而本教程则构建在Lean的强大且不断增长的库--Mathlib之上. 因此, 我们可以向你展示如何使用库中的一些数学对象和定理, 以及一些非常有用的策略. 这本书不会对Mathlib进行完整的概述; [社区](https://leanprover-community.github.io/)网页包含大量的文档. 相反, 我们的目标是向你介绍形式化基础上的思维方式, 以便你可以轻松地浏览Mathlib并自己查找内容. 
 
-交互式定理证明是令人沮丧的, 学习曲线是陡峭的. 但是Lean社区非常欢迎新人, 人们可以24小时在Lean Zulip聊天群中回答问题. 我们希望在那里见到你, 并且毫无疑问, 很快你也将能够回答这些问题, 并为mathlib的发展做出贡献. 
+交互式定理证明有时是令人沮丧的, 并且学习曲线是陡峭的. 但是Lean社区非常欢迎新人,在那里社区成员可以24小时在[Lean Zulip聊天群](https://leanprover.zulipchat.com/)中回答问题. 我们希望在那里见到你, 并且毫无疑问, 很快你也将能够回答这些问题, 并为Mathlib的发展做出贡献. 
 
-所以这是你的任务, 如果你选择接受它: 潜入, 尝试练习, 带着问题来Zulip, 玩得开心. 但要预先警告: 交互式定理证明将挑战你以全新的方式思考数学和数学推理. 你的生活可能从此不同. 
+所以这是你的任务, 如果你选择接受它: 潜心学习, 多加练习,带着问题来Zulip, 并祝你玩得开心. 但要预先警告: 交互式定理证明将给你一些挑战，从而你将以全新的方式思考数学和数学推理. 你的生活可能从此不同. 
 
 *Acknowledgments*. We are grateful to Gabriel Ebner for setting up the infrastructure for running this tutorial in VS Code. We are also grateful for help from Bryan Gin-ge Chen, Johan Commelin, Julian Külshammer, and Guilherme Silva. Our work has been partially supported by the Hoskinson Center for Formal Mathematics.
 
-感谢rujia liu老师审校译本, 感谢toaster同学对译本的反馈建议, 感谢中文类型论社区Infinity Type Café的群友们对译本的大力支持. 
+感谢rujia liu老师审校译本,感谢中文类型论社区Infinity Type Café的群友们对译本的大力支持. 
