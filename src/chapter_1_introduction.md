@@ -1,4 +1,22 @@
-# 1 概述
+# 1 介绍
+
+本书原文请见[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+
+作者Jeremy Avigad, Patrick Massot。译者toaster, subfish
+
+本项目的翻译量较大，在尽量保证通顺的情况下多采用机翻，仅供习惯中文的读者作为参考，译者推荐有能力的读者阅读原文。欢迎对本译文提出宝贵意见和问题，可邮件至subfishzhou@gmail.com。本项目尚未完工。
+
+## 1.1 开始旅程
+
+本书的目标是教会你使用Lean4交互式证明助手来形式化数学。你需要一点数学预备知识，但不用很多。虽然我们将涵盖从数论到测度论和分析的例子，但我们将侧重于基本知识，如果你不熟悉这些数学你也可以直接在这里学。你也不需要预先会形式化方法。形式化可以看作是一种计算机编程：我们将用一种规范化的语言(如编程语言)来编写数学定义、定理和证明，这样Lean就可以理解。反过来，Lean提供反馈信息，解释表达式并保证它们是格式良好的，并最终验证我们的证明的正确性。
+
+您可以从[Lean项目页面](https://leanprover.github.io/)和[Lean社区](https://leanprover-community.github.io/)了解更多关于Lean的信息。本教程基于Lean的庞大且不断增长的库Mathlib。如果你还没有加入[Lean Zulip在线聊天组](https://leanprover.zulipchat.com/)，我们也强烈建议你加入。你会发现那里有一个充满活力和热情的Lean爱好者社区，他们很乐意回答问题并提供精神支持。
+
+本书原文提供交互式阅读版本，请参考[原文配置](https://leanprover-community.github.io/mathematics_in_lean/C01_Introduction.html#getting-started)。中文译本不支持交互式。
+
+[**Lean的安装教程**](https://subfish-zhou.github.io/theorem_proving_in_lean4_zh_CN/setup.html)
+
+## 1.2 概述
 
 简单来说, Lean是一种构建复杂表达式的工具, 建立在被称作依值类型论(dependent type theory)的形式语言上.
 
