@@ -6,7 +6,7 @@
 
 ```lean
 -- 译者注：此处需要导入
--- import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.Basic
 -- 注意导入包的语句都需要放在文件开头
 #check 2 + 2
 
@@ -49,12 +49,14 @@ theorem hard : FermatLastTheorem :=
 
 ```lean
 -- 译者注：
--- 这里even需要导入
--- import Mathlib.algebra.parity
--- 或者定义
--- def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
+-- 这里Even需要导入
+import Mathlib.Algebra.Parity
+
+-- 或者导入自然数基础并附加定义
+-- import Mathlib.Data.Nat.Basic
+-- def Even (n : Nat) : Prop := ∃ (k : Nat) , n = k + k
 -- 二者择一，不可同用
--- 欲知导入何种library，可以在mathlib上搜索
+-- 欲知导入何种library，可以在Mathlib上搜索
 
 example : ∀ m n : Nat, Even n → Even (m * n) := 
   fun m n ⟨k, (hk : n = k + k)⟩ ↦

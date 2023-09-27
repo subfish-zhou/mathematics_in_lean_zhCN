@@ -141,6 +141,9 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/RedBlack23/mathematics_in_lean_zhCN" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
 
                     </div>
                 </div>
@@ -203,12 +206,14 @@ theorem hard : FermatLastTheorem :=
 <p>这本书是对相关教程<a href="https://subfish-zhou.github.io/theorem_proving_in_lean4_zh_CN/">《Lean定理证明》</a><a href="https://lean-lang.org/theorem_proving_in_lean4/">(theorm proving in lean)</a>的补充, 那份教程更全面地介绍了Lean的基本逻辑框架和核心语法. 《Lean定理证明》适用于那些喜欢在使用新机器之前从头到尾阅读用户手册的人. 如果你是那种喜欢点击开始按钮, 然后弄清楚如何激活各种特性的人, 那么从这里开始, 并在必要时参考《Lean定理证明》会更有意义. </p>
 <p>《Lean中的数学》与《Lean定理证明》的另一个区别是, 此处更加强调证明策略(tactic)的使用. 假设我们正在尝试构建复杂的表达式, Lean提供了两种方法: 我们可以写下表达式本身(即适当的文本描述), 或者我们可以向Lean提供关于如何构建它们的说明. 例如, 下面的表达式证明了如果n是偶数, 那么m * n也是偶数:</p>
 <pre><code class="language-lean">-- 译者注：
--- 这里even需要导入
--- import Mathlib.algebra.parity
--- 或者定义
--- def even (n : nat) : Prop := ∃ (k : nat) , n = 2 * k
+-- 这里Even需要导入
+import Mathlib.Algebra.Parity
+
+-- 或者导入自然数基础并附加定义
+-- import Mathlib.Data.Nat.Basic
+-- def Even (n : Nat) : Prop := ∃ (k : Nat) , n = k + k
 -- 二者择一，不可同用
--- 欲知导入何种library，可以在mathlib上搜索
+-- 欲知导入何种library，可以在Mathlib上搜索
 
 example : ∀ m n : Nat, Even n → Even (m * n) := 
   fun m n ⟨k, (hk : n = k + k)⟩ ↦
