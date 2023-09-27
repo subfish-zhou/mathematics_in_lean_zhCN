@@ -220,9 +220,9 @@ fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 </code></pre>
 <p>策略式的证明是下面这样:</p>
 <pre><code class="language-lean">import Mathlib.tactic --导入策略
-example : ∀ m n : nat, even n → even (m * n) := by
+example : ∀ m n : Nat, Even n → Even (m * n) := by
   -- 设m和n是自然数, 然后假设n=2*k
-  rintros m n ⟨k, hk⟩
+  rintro m n ⟨k, hk⟩
   -- 需要证明m*n 是自然数的两倍, 现在说明它是两倍的m*k
   use m * k
   -- 代入n
@@ -269,22 +269,6 @@ example : ∀ m n : nat, even n → even (m * n) := by
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
