@@ -92,8 +92,8 @@ fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 策略式的证明是下面这样:
 
 ```lean
-import Mathlib.Tactic --导入策略
-example : ∀ m n : nat, even n → even (m * n) := by
+import Mathlib.tactic --导入策略
+example : ∀ m n : Nat, Even n → Even (m * n) := by
   -- 设m和n是自然数, 然后假设n=2*k
   rintro m n ⟨k, hk⟩
   -- 需要证明m*n 是自然数的两倍, 现在说明它是两倍的m*k
