@@ -73,9 +73,9 @@ fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
 
 ```lean
 import Mathlib.tactic --导入策略
-example : ∀ m n : nat, even n → even (m * n) := by
+example : ∀ m n : Nat, Even n → Even (m * n) := by
   -- 设m和n是自然数, 然后假设n=2*k
-  rintros m n ⟨k, hk⟩
+  rintro m n ⟨k, hk⟩
   -- 需要证明m*n 是自然数的两倍, 现在说明它是两倍的m*k
   use m * k
   -- 代入n
