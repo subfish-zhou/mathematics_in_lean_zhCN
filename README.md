@@ -7,4 +7,7 @@ kevin buzzard等人已经在尝试以Lean做本科生入门数学的途径。我
 
 本项目目前是Lean community官方教程mathematics in lean的中文译本，未来希望发展得更完备一点。
 
+电子书请见
+https://redblack23.github.io/mathematics_in_lean_zhCN
+
 祝读者学习愉快！

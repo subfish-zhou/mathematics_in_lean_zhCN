@@ -299,6 +299,7 @@ theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b := by
 证明它的配套版本：
 
 ```lean
+-- 译者注：记得先设置namespace
 theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
   sorry
 ```
@@ -473,7 +474,9 @@ example (x : ℝ) : x ≤ x :=
   le_refl x
 ```
 
+在第一个示例中，`apply le_trans` 创建两个目标，我们使用点来指示每个证明的开始位置。 这些点是可选的，但它们用于聚焦目标： 在点引入的块中，只有一个目标可见， 并且必须在区块结束之前完成。 在这里，我们通过用另一个点开始一个新块来结束第一个块。 我们也可以减少缩进。 在第四个示例和最后一个示例中， 我们避免完全进入 `tactic` 模式：`le_transle_trans h₀ h₁` 和 `le_refl x` 是我们需要的证明项。
 
+这里还有几个库中的定理。
 In the first example, applying le_trans creates two goals, and we use the dots to indicate where the proof of each begins. The dots are optional, but they serve to focus the goal: within the block introduced by the dot, only one goal is visible, and it must be completed before the end of the block. Here we end the first block by starting a new one with another dot. We could just as well have decreased the indentation. In the fourth example and in the last example, we avoid going into tactic mode entirely: le_trans h₀ h₁ and le_refl x are the proof terms we need.
 
 Here are a few more library theorems:
@@ -507,7 +510,7 @@ example (h : 2 * a ≤ 3 * b) (h' : 1 ≤ a) (h'' : d = 2) : d + a ≤ 5 * b := 
   linarith
 ```
 
-
+除了上下文中的方程和不等式之外，`linarith` 还将使用您作为参数传递的其他不等式。 在下一个示例中，`exp_le_exp.mpr h'` 是 `exp b ≤ exp c` 的证明，我们稍后将对此进行解释。 请注意，在 Lean 中，我们用 `f x` 来表示将函数 `f` 应用于参数 `x`, 这与我们用 `h x` 来表示将事实或定理 `h` 应用到参数 `x ` 完全相同。 括号仅用于复合参数，如 `f (x + y)` 。 如果没有括号，`f x + y` 将被解析为 `(f x) + y`。
 
 In addition to equations and inequalities in the context, linarith will use additional inequalities that you pass as arguments. In the next example, exp_le_exp.mpr h' is a proof of exp b ≤ exp c, as we will explain in a moment. Notice that, in Lean, we write f x to denote the application of a function f to the argument x, exactly the same way we write h x to denote the result of applying a fact or theorem h to the argument x. Parentheses are only needed for compound arguments, as in f (x + y). Without the parentheses, f x + y would be parsed as (f x) + y.
 
@@ -537,7 +540,7 @@ example (h : 1 ≤ a) (h' : b ≤ c) : 2 + a + exp b ≤ 3 * a + exp c := by
 #check add_le_add_left
 ```
 
-
+`exp_le_exp` 、`exp_lt_exp` 和 `log_le_log` 等定理使用双蕴含，表示短语“当且仅当”。(你可以在 VS Code 中输入 `\lr` 或者 `\iff`)。我们将在下一章更详细地讨论这个连接词。这样的定理可以与 `rw` 一起使用，将目标重写为等效的目标:
 
 Some of the theorems, exp_le_exp, exp_lt_exp, and log_le_log use a bi-implication, which represents the phrase “if and only if.” (You can type it in VS Code with \lr of \iff). We will discuss this connective in greater detail in the next chapter. Such a theorem can be used with rw to rewrite a goal to an equivalent one:
 
@@ -546,15 +549,22 @@ example (h : a ≤ b) : exp a ≤ exp b := by
   rw [exp_le_exp]
   exact h
 ```
-
+然而，在本节中，我们将使用这样一个事实，即如果 `h : A ↔ B` 是这样一个等价，则 `h.mp` 建立正向 `A → B` ，而 `h.mpr` 建立反向 `B → A` 。这里，`mp` 代表"肯定前件式"，mpr代表"肯定前件式的反向"。如果愿意，还可以分别为 `h.mp` 和 `h.mpr` 使用 `h.1` 和 `h.2` 。因此，下面的证明是有效的:
 
 In this section, however, we will use the fact that if h : A ↔ B is such an equivalence, then h.mp establishes the forward direction, A → B, and h.mpr establishes the reverse direction, B → A. Here, mp stands for “modus ponens” and mpr stands for “modus ponens reverse.” You can also use h.1 and h.2 for h.mp and h.mpr, respectively, if you prefer. Thus the following proof works:
 
+```lean
 example (h₀ : a ≤ b) (h₁ : c < d) : a + exp c + e < b + exp d + e := by
   apply add_lt_add_of_lt_of_le
   · apply add_lt_add_of_le_of_lt h₀
     apply exp_lt_exp.mpr h₁
   apply le_refl
+
+```
+第一行，`apply add_lt_add_of_lt_of_le` 创建了两个目标，我们再次使用一个点将第一个证明与第二个证明分开。
+
+试试下面的例子。中间的示例向您展示了 `norm_num` 策略可用于解决具体的数字目标。
+
 The first line, apply add_lt_add_of_lt_of_le, creates two goals, and once again we use a dot to separate the proof of the first from the proof of the second.
 
 Try the following examples on your own. The example in the middle shows you that the norm_num tactic can be used to solve concrete numeric goals.
@@ -571,6 +581,16 @@ example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) := by
   sorry
 ```
 
+从这些例子中应该认清的是，找到您需要的库定理是形式化的重要组成部分。您可以参考以下方式：
+
+您可以在 GitHub 存储库中浏览 Mathlib。
+
+您可以在Mathlib网页上使用API文档。
+
+您可以根据编辑器中的 Mathlib 命名惯例和 `Ctrl-空格` 来猜测定理名称（或 Mac 键盘上的 `Cmd-空格` ）。在 Lean 中，一个名为 `A_of_B_of_C` 的定理从形式为B和C的假设中建立了形式A的东西，其中 A 、B 和 C 近似于我们大声读出目标的方式。因此，一个包含形如 `x + y ≤ ...` 的定理可能会以 `add_le` 开头。键入 `add_le` 并使用快捷键 `Ctrl-空格` 将为您提供一些有用的选择。请注意，按两次 `Ctrl-空格` 将显示更多可用的信息。
+
+如果右键单击VS Code中现有的定理名称，编辑器将显示一个菜单，其中包含跳到定义定理的文件的选项，您可以在附近找到类似的定理。
+你可以使用应用程序吗？策略，试图在库中找到相关的定理。
 
 From these examples, it should be clear that being able to find the library theorems you need constitutes an important part of formalization. There are a number of strategies you can use:
 
@@ -584,17 +604,26 @@ If you right-click on an existing theorem name in VS Code, the editor will show 
 
 You can use the apply? tactic, which tries to find the relevant theorem in the library.
 
+```lean
 example : 0 ≤ a ^ 2 := by
   -- apply?
   exact sq_nonneg a
+```
+
+
 To try out apply? in this example, delete the exact command and uncomment the previous line. Using these tricks, see if you can find what you need to do the next example:
 
+```lean
 example (h : a ≤ b) : c - exp b ≤ c - exp a := by
   sorry
+```
+
+
 Using the same tricks, confirm that linarith instead of apply? can also finish the job.
 
 Here is another example of an inequality:
 
+```lean
 example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
   have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2
   calc
@@ -606,10 +635,14 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
     _ ≤ 2 * a * b + (a ^ 2 - 2 * a * b + b ^ 2) :=
       add_le_add (le_refl _) h
     _ = a ^ 2 + b ^ 2 := by ring
+```
+
+
 Mathlib tends to put spaces around binary operations like * and ^, but in this example, the more compressed format increases readability. There are a number of things worth noticing. First, an expression s ≥ t is definitionally equivalent to t ≤ s. In principle, this means one should be able to use them interchangeably. But some of Lean’s automation does not recognize the equivalence, so Mathlib tends to favor ≤ over ≥. Second, we have used the ring tactic extensively. It is a real timesaver! Finally, notice that in the second line of the second calc proof, instead of writing by exact add_le_add (le_refl _) h, we can simply write the proof term add_le_add (le_refl _) h.
 
 In fact, the only cleverness in the proof above is figuring out the hypothesis h. Once we have it, the second calculation involves only linear arithmetic, and linarith can handle it:
 
+```lean
 example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
   have h : 0 ≤ a ^ 2 - 2 * a * b + b ^ 2
   calc
@@ -617,11 +650,17 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
     _ ≥ 0 := by apply pow_two_nonneg
   linarith
 How nice! We challenge you to use these ideas to prove the following theorem. You can use the theorem abs_le'.mpr.
+```
 
+
+```lean
 example : |a * b| ≤ (a ^ 2 + b ^ 2) / 2 := by
   sorry
-
 #check abs_le'.mpr
+```
+
+
+
 If you managed to solve this, congratulations! You are well on your way to becoming a master formalizer.
 
 ## 2.4. apply和rw的更多例子
@@ -733,32 +772,54 @@ See if you can do this in three lines or less. You can use the theorem sub_add_c
 
 Another important relation that we will make use of in the sections to come is the divisibility relation on the natural numbers, x ∣ y. Be careful: the divisibility symbol is not the ordinary bar on your keyboard. Rather, it is a unicode character obtained by typing \| in VS Code. By convention, Mathlib uses dvd to refer to it in theorem names.
 
+```lean
 example (h₀ : x ∣ y) (h₁ : y ∣ z) : x ∣ z :=
   dvd_trans h₀ h₁
+```
 
+
+```lean
 example : x ∣ y * x * z := by
   apply dvd_mul_of_dvd_left
   apply dvd_mul_left
-
+```
+```lean
 example : x ∣ x ^ 2 := by
    apply dvd_mul_left
+```
+
+
+
 In the last example, the exponent is a natural number, and applying dvd_mul_left forces Lean to expand the definition of x^2 to x * x^1. See if you can guess the names of the theorems you need to prove the following:
 
+```lean
 example (h : x ∣ w) : x ∣ y * (x * z) + x ^ 2 + w ^ 2 := by
   sorry
 end
+```
+
 With respect to divisibility, the greatest common divisor, gcd, and least common multiple, lcm, are analogous to min and max. Since every number divides 0, 0 is really the greatest element with respect to divisibility:
 
+
+```lean
 variable (m n : ℕ)
 
 #check (Nat.gcd_zero_right n : Nat.gcd n 0 = n)
 #check (Nat.gcd_zero_left n : Nat.gcd 0 n = n)
 #check (Nat.lcm_zero_right n : Nat.lcm n 0 = 0)
 #check (Nat.lcm_zero_left n : Nat.lcm 0 n = 0)
+```
+
+
 See if you can guess the names of the theorems you will need to prove the following:
 
+```lean
 example : Nat.gcd m n = Nat.gcd n m := by
   sorry
+```
+
+
+
 Hint: you can use dvd_antisymm, but if you do, Lean will complain that the expression is ambiguous between the generic theorem and the version Nat.dvd_antisymm, the one specifically for the natural numbers. You can use _root_.dvd_antisymm to specify the generic one; either one will work.
 
 ## 2.5. 证明Proving Facts about Algebraic Structures
